@@ -65,9 +65,14 @@ const getList = function (req, res) {
               iconClass: 'el-icon-edit',
               list: [
                 {
-                  secondName: '用户管理',
-                  path: '/',
-                  name: ''
+                  secondName: '管理员管理',
+                  path: 'Role/adminRole',
+                  name: 'adminRole'
+                },
+                {
+                  secondName: '普通用户',
+                  path: 'Role/orginRole',
+                  name: 'orginRole'
                 }
               ],
             }

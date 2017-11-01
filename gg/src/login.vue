@@ -39,8 +39,6 @@
                 </div>
         </el-card>
       </div>
-      <el-button :plain="true">成功</el-button>
-      <el-button :plain="true">错误</el-button>
   </div>
 </template>
 

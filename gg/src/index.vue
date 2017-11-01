@@ -138,7 +138,7 @@ import axios from 'axios'
     width: 90px;
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
+    width: 100%;
     min-height: 400px;
   }
   #content-box .grid-content{
