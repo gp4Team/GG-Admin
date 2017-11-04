@@ -3,7 +3,7 @@ const { getParam } = require('../utils/utils.js')
 const bcrypt = require('bcrypt')
 
 const signUp = function (req, res) {
-  const { username, password } = req.body
+  const { username, password, roles } = req.body
   User.findOne({username})
   .then((user)=>{
       if(user){
@@ -13,7 +13,8 @@ const signUp = function (req, res) {
           .then((password) => {
               const willSaveUser = new User({
                   username,
-                  password
+                  password,
+                  roles
               })
               willSaveUser.save().then(()=>{
                   res.json(getParam({success:true}))
@@ -46,4 +47,17 @@ const signIn = function(req,res) {
         }
     })
 }
-module.exports = { signUp, signIn }
+//判断用户是否登录
+const isLogin = function(req, res){
+    res.json(getParam({
+        login: req.session.username ? true : false,
+        username: req.session.username  //session 所有接口都能读取到
+    }))
+}
+const logout = function (req,res){
+    res.session = null,
+    res.json(getParam({
+        logout : true
+    }))
+}
+module.exports = { signUp, signIn, isLogin, logout }

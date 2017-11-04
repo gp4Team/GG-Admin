@@ -26,3 +26,25 @@ body{font:12px "微软雅黑";}
 .el-aside{
     background-color:rgb(85, 94, 100); 
 }
+//覆盖样式
+.el-table__body tr.current-row > td {
+    background: rgba(253, 146, 250, 0.14) !important;
+}
+.el-menu-item.is-active{
+    color: #fff;
+    &.active{
+      color: #ff35f7;
+    }
+  }
+.warning{
+    color: #EB9E05;
+    cursor: pointer;
+}
+.el-menu-item-group.sonMenu > ul > .el-menu-item{
+    background-color: #483e48 !important;
+    font-size: 13px;
+    padding-left: 55px !important;
+    &:hover{
+    background-color: #403140 !important;
+    }
+}

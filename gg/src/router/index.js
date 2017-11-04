@@ -5,6 +5,7 @@ import Banners from "../views/Index/Banners.vue"
 import MainClass from '../views/Index/MainClass.vue'
 import AdminRole from "../views/role/adminRole.vue"
 import OrginRole from '../views/role/orginRole.vue'
+import Products from '../views/Index/Products.vue'
 import Login from '@/login'
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
           path: 'Index/MainClass',
           name: 'mainClass',
           component: MainClass
+        },
+        {
+          path: 'Index/Products',
+          name: 'products',
+          component: Products
         },
         {
           path: 'Role/adminRole',

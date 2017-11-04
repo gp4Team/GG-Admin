@@ -8,6 +8,7 @@ import store from './vuex/store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/commen.scss'
+import '@/assets/css/animate.css'
 
 Vue.use(ElementUI)
 

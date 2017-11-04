@@ -3,8 +3,8 @@
       <el-container style="">
         <el-header>
           <el-row :gutter="20">
-            <el-col :span="21"><div class="grid-content">逛逛网后台管理系统</div></el-col>
-            <el-col :span="3">
+            <el-col :span="20"><div class="grid-content">逛逛网后台管理系统</div></el-col>
+            <el-col :span="4">
               <div class="grid-content">
                   <el-dropdown>
                     <img  v-if="showUname" class="head-img" src="/static/images/default.jpg" alt="">
@@ -13,9 +13,9 @@
                           <el-dropdown-item >{{!showUname == true?"注销":"注册"}}</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
-                  <span v-if="!showUname">你好,{{this.$store.state.userInfo.username}}</span>
-                  <span v-if="!showUname" @click="login">注销</span>
-                  <span @click="login" v-if="showUname">登录</span>
+                  <span v-if="!showUname">你好，{{userInfo.username}}</span>
+                  <span class="warning" v-if="!showUname" @click="logout">注销</span>
+                  <span class="warning" @click="login" v-if="showUname">登录</span>
               </div>
             </el-col>
           </el-row>
@@ -32,8 +32,8 @@
                             <i :class="item.iconClass"></i>
                             <span>{{item.title}}</span>
                           </template>
-                          <el-menu-item-group>
-                            <el-menu-item :class="{'active':i == activeName}" @click="go_path(i)" v-for="(i,inx) in leftMenu[is].list" :key="inx" index="1-1">{{i.secondName}}</el-menu-item>
+                          <el-menu-item-group class="sonMenu">
+                            <el-menu-item :class="{'active':i == activeName}" @click="go_path(item,i)" v-for="(i,inx) in leftMenu[is].list" :key="inx" index="1-1">{{i.secondName}}</el-menu-item>
                           </el-menu-item-group>
                         </el-submenu>
                         </el-menu>
@@ -42,17 +42,25 @@
             </el-col>
             <el-col :span="20" id="content-box">
               <div class="grid-content">
-                  <el-main>
                     <transition
                       name="page-change-transition"
                       mode="out-in"
                       enter-active-class="animate-time zoomInUp"
                       leave-active-class="animate-time zoomOutLeft">
-                      <keep-alive>
-                          <router-view></router-view>
-                      </keep-alive>
+                      <transition
+                          name="page-change-transition"
+                          mode="out-in"
+                          enter-active-class="animate-time zoomInUp"
+                          leave-active-class="animate-time zoomOutLeft">
+                          <el-main>
+                            <Breadcrumb :breadcrumbInfo = 'breadcrumbInfo'></Breadcrumb>
+                            <keep-alive>
+                                <router-view></router-view>
+                            </keep-alive>
+                          </el-main>
+                      </transition>
                   </transition>
-                  </el-main>
+                  
               </div>
             </el-col>
         </el-row>
@@ -62,37 +70,73 @@
 
 <script>
 import axios from 'axios'
+import Breadcrumb from './components/Breadcrumb.vue'
   export default {
     data() {
       return {
           isCollapse:false,
-          showUname:this.$store.state.userInfo.username == '',
+          showUname:false,
           leftMenu: [],
-          activeName:''
+          activeName:'',
+          userInfo: {
+            username: ''
+          },
+          breadcrumbInfo: {
+              titleFirst: '',
+              titleSecond: ''
+          }
       }
     },
+    components: {
+      Breadcrumb
+    },
     mounted() {
+        this.getNavMenu()
+        this.isLogin()
+    },
+    methods:{
+      isLogin() {
+        let that = this
+        console.log('登录状态')
+        axios.get('/ggserver/api/users/isLogin')
+        .then(function(res){
+            that.userInfo.username = res.data.data.username
+            that.showUname = !(res.data.data.login)
+        })
+      },
+      getNavMenu (){
         let that = this;
         axios.get('/ggserver/api/nav/menulist')
           .then(function(res){
             console.log(res.data)
               that.leftMenu = res.data.leftMenu;
           })
-          
-    },
-    methods:{
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       },
-      go_path(item) {
+      go_path(parant,item) {
         this.activeName = item
         this.$router.push({path:item.path,name:item.name})
+        this.breadcrumbInfo.titleFirst = parant.title
+        this.breadcrumbInfo.titleSecond = item.secondName
       },
       login() {
         this.$router.push({path:'/'})
+      },
+      logout() {
+        console.log('登出状态')
+        let that = this
+        axios.get('/ggserver/api/users/isOut')
+        .then(function(res){
+            if(res.data.data.logout === true){
+                that.$router.push({path:'/'})
+            }
+            
+        })
       }
     }
   };
@@ -125,12 +169,7 @@ import axios from 'axios'
   .el-row,.el-col,.grid-content{
     height: 100%
   }
-  .el-menu-item.is-active{
-    color: #fff;
-    &.active{
-      color: #ff35f7;
-    }
-  }
+  
   #content-box{
     margin-top: 20px;
   }

@@ -18,8 +18,8 @@ const getList = function (req, res) {
                 },
                 {
                   secondName: '商品管理',
-                  path: 'Index/Banners',
-                  name: 'banners'
+                  path: 'Index/Products',
+                  name: 'products'
                 }
               ],
             },

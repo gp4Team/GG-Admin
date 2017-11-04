@@ -8,6 +8,10 @@ const schema = new db.Schema({
     password:{
         type:String,
         required:true
+    },
+    roles: {
+        type: Number,
+        required: true
     }
 })
 const User = db.model('users',schema)

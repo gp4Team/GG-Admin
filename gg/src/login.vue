@@ -128,7 +128,7 @@ export default {
           let that = this
           this.$refs[formName].validate((valid) => {
             if (valid) {
-                axios.post('/ggserver/api/users/signUp',{username:this.ruleForm2.username,password:this.ruleForm2.registerPass})
+                axios.post('/ggserver/api/users/signUp',{username:this.ruleForm2.username,password:this.ruleForm2.registerPass,roles:0})
                 .then(function(res){
                     that.$message({
                         message: '注册成功，请登录',
@@ -153,7 +153,6 @@ export default {
                     .then(function(res){
                         console.log(res.data)
                         if(res.data.data.login === true){
-                            
                             that.$router.push({path: '/index'})
                             that.$store.commit('saveUserInfo',res.data.data.username)
                         }else{
