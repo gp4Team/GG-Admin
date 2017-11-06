@@ -12,6 +12,14 @@ const schema = new db.Schema({
     roles: {
         type: Number,
         required: true
+    },
+    userPhone: {
+        type: Number,
+        required: false
+    },
+    createTime: {
+    	type: Date,
+        required: true
     }
 })
 const User = db.model('users',schema)

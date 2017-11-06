@@ -4,7 +4,6 @@ const userController = require('../controller/user.js')
 const navController = require('../controller/nav.js')
 const productsController = require('../controller/products.js')
 
-const fontendUserController = require('../controller/fontendUser.js')
 /* GET home page. */
 // 用户相关路由
 router.post('/users/signUp', userController.signUp)
@@ -18,9 +17,6 @@ router.post('/products/saveList',productsController.saveProductsList)
 router.get('/products/deletelist',productsController.deleteProducts)
 router.get('/products/getOneList',productsController.getOneProducts)
 
-//fontend用户相关路由
-router.post('/users/login', fontendUserController.login)
-router.post('/users/register', fontendUserController.register)
 
 router.get('/nav/menulist', navController.getList)
 

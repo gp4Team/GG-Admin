@@ -3,7 +3,7 @@ const { getParam } = require('../utils/utils.js')
 const bcrypt = require('bcrypt')
 
 const signUp = function (req, res) {
-  const { username, password, roles } = req.body
+  const { username, password,  userPhone, roles } = req.body
   User.findOne({username})
   .then((user)=>{
       if(user){
@@ -14,7 +14,9 @@ const signUp = function (req, res) {
               const willSaveUser = new User({
                   username,
                   password,
-                  roles
+                  roles,
+                  userPhone,
+                  createTime: new Date().getTime()
               })
               willSaveUser.save().then(()=>{
                   res.json(getParam({success:true}))
@@ -25,7 +27,7 @@ const signUp = function (req, res) {
   })
 }
 const signIn = function(req,res) {
-    const { username, password} = req.body
+    const { username, password } = req.body
     User.findOne({username})
     .then((user) => {
         if(!user) {
