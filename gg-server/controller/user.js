@@ -1,5 +1,5 @@
 const User = require('../model/user.js')
-const { getParam } = require('../utils/utils.js')
+const { getParam,getList } = require('../utils/utils.js')
 const bcrypt = require('bcrypt')
 
 const signUp = function (req, res) {
@@ -62,4 +62,20 @@ const logout = function (req,res){
         logout : true
     }))
 }
-module.exports = { signUp, signIn, isLogin, logout }
+
+//用户列表list
+const usersList = function(req,res,next){	
+	 const { pageNo } = req.body
+	  console.log(req.body)
+	  let pageSize = 10
+	  
+	  	User.find({roles:1})
+	  	.skip( (pageNo-1)*pageSize)
+	  	.limit(pageSize)
+	  	.sort({_id:-1})
+	  	.then((results) => {
+	  		console.log({"results":results})
+	  		res.json( getList({results}))
+	  	})
+}
+module.exports = { signUp, signIn, isLogin, logout, usersList }

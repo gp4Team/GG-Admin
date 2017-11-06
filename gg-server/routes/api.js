@@ -17,6 +17,9 @@ router.post('/products/saveList',productsController.saveProductsList)
 router.get('/products/deletelist',productsController.deleteProducts)
 router.get('/products/getOneList',productsController.getOneProducts)
 
+//用户列表相关路由
+router.post('/usersList', userController.usersList)
+
 
 router.get('/nav/menulist', navController.getList)
 
