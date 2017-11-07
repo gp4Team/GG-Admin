@@ -4,10 +4,10 @@
       <div class="main">
           <el-form :inline="true" class="demo-form-inline">
             <el-form-item>
-              <el-input size="mini" placeholder="关键字搜索"></el-input>
+              <el-input size="mini" v-model="searchWord" placeholder="关键字搜索"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button size="mini" type="primary" icon="el-icon-search" plain>搜索</el-button>
+              <el-button size="mini" @click="search" type="primary" icon="el-icon-search" plain>搜索</el-button>
             </el-form-item>
             <el-form-item>
               <el-button size="mini" @click="addProducts" icon="el-icon-circle-plus-outline" type="primary" plain>添加</el-button>
@@ -31,7 +31,7 @@
               <el-table-column type="selection" width="30"> </el-table-column>
               <el-table-column type="index" width="30"> </el-table-column>
               <el-table-column class="pro-url" width="80" label="商品封面"> 
-                  <template scope='scope'>
+                  <template slot-scope='scope'>
                       <img :src="scope.row.goodsListImg" alt="封面">
                   </template>
               </el-table-column>
@@ -69,7 +69,8 @@ export default {
               pageSize: 1
           },
           selectList: '',
-          modifyInfo: {}
+          modifyInfo: {},
+          searchWord: ''
       }
     },
     components:{
@@ -81,7 +82,7 @@ export default {
     },
     methods: {
       getProductsList(currentPage) {
-          let params = { "pageNo" : currentPage || 1}
+          let params = { "pageNo" : currentPage || 1,searchWord: this.searchWord}
           let that = this
           axios.get('/ggserver/api/products/list',{params})
             .then(function(res){
@@ -161,6 +162,9 @@ export default {
                 console.log(res.data.data.result)
                 that.modifyInfo = res.data.data.result
             })
+      },
+      search(){
+          this.getProductsList(1)
       }
     }
 }

@@ -1,14 +1,22 @@
 <template>
   <div class="wrapper">
       <el-container style="">
+        <el-popover
+            ref="popover1"
+            placement="bottom"
+            width="320"
+            trigger="click"
+            v-model="showPop">
+            <UserInfo :userInfo="userInfo" v-on:isUpdataUser = 'closePop'></UserInfo>
+          </el-popover>
         <el-header>
           <el-row :gutter="20">
             <el-col :span="20"><div class="grid-content">逛逛网后台管理系统</div></el-col>
             <el-col :span="4">
-              <div class="grid-content">
+              <div class="grid-content" v-popover:popover1>
                   <el-dropdown>
                     <img  v-if="showUname" class="head-img" src="/static/images/default.jpg" alt="">
-                    <img  v-if="!showUname" class="head-img" src="/static/images/headimg.jpg" alt="">
+                    <img  v-if="!showUname" class="head-img" :src="userInfo.userHeadImg ? userInfo.userHeadImg : '/static/images/default.jpg'" alt="">
                     <el-dropdown-menu slot="dropdown">
                           <el-dropdown-item >{{!showUname == true?"注销":"注册"}}</el-dropdown-item>
                     </el-dropdown-menu>
@@ -18,6 +26,7 @@
                   <span class="warning" @click="login" v-if="showUname">登录</span>
               </div>
             </el-col>
+            
           </el-row>
         </el-header>
         <el-row :gutter="22">
@@ -71,6 +80,7 @@
 <script>
 import axios from 'axios'
 import Breadcrumb from './components/Breadcrumb.vue'
+import UserInfo from './components/UserInfo'
   export default {
     data() {
       return {
@@ -79,16 +89,20 @@ import Breadcrumb from './components/Breadcrumb.vue'
           leftMenu: [],
           activeName:'',
           userInfo: {
-            username: ''
+            username:'',
+            userId: '',
+            userHeadImg:''
           },
           breadcrumbInfo: {
               titleFirst: '',
               titleSecond: ''
-          }
+          },
+          showPop:false
       }
     },
     components: {
-      Breadcrumb
+      Breadcrumb,
+      UserInfo
     },
     mounted() {
         this.getNavMenu()
@@ -101,6 +115,14 @@ import Breadcrumb from './components/Breadcrumb.vue'
         axios.get('/ggserver/api/users/isLogin')
         .then(function(res){
             that.userInfo.username = res.data.data.username
+            that.userInfo.userId = res.data.data.userId
+            that.userInfo.userHeadImg = res.data.data.userHeadImg
+            // that.userInfo.password = res.data.data.password
+            let param = {
+                username : res.data.data.username,
+                userId: res.data.data.userId
+            }
+            that.$store.commit('saveUserInfo',param)
             that.showUname = !(res.data.data.login)
         })
       },
@@ -137,6 +159,11 @@ import Breadcrumb from './components/Breadcrumb.vue'
             }
             
         })
+      },
+      closePop(has){
+          if(has){
+            this.showPop = false
+          }
       }
     }
   };

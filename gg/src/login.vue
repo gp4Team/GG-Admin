@@ -92,11 +92,13 @@ export default {
         ruleForm2: {
           registerPass: '',
           regcheckPass: '',
-          username: ''
+          username: '',
+          userHeadImg:'/static/images/headimg.jpg'
         },
         ruleForm1: {
             loginPass: '',
-            loginName: ''
+            loginName: '',
+            userHeadImg: ''
         },
         rules2: {
          registerPass: [
@@ -128,7 +130,7 @@ export default {
           let that = this
           this.$refs[formName].validate((valid) => {
             if (valid) {
-                axios.post('/ggserver/api/users/signUp',{username:this.ruleForm2.username,password:this.ruleForm2.registerPass,roles:0})
+                axios.post('/ggserver/api/users/signUp',{username:this.ruleForm2.username,password:this.ruleForm2.registerPass,roles:0,userHeadImg:this.ruleForm2.userHeadImg})
                 .then(function(res){
                     that.$message({
                         message: '注册成功，请登录',
@@ -149,12 +151,11 @@ export default {
             let that = this
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    axios.post('/ggserver/api/users/signIn',{username:this.ruleForm1.loginName,password:this.ruleForm1.loginPass})
+                    axios.post('/ggserver/api/users/signIn',{username:this.ruleForm1.loginName,password:this.ruleForm1.loginPass,userHeadImg:this.ruleForm1.userHeadImg})
                     .then(function(res){
                         console.log(res.data)
                         if(res.data.data.login === true){
                             that.$router.push({path: '/index'})
-                            that.$store.commit('saveUserInfo',res.data.data.username)
                         }else{
                             that.$message.error('密码输入错误');
                         }
