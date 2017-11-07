@@ -8,7 +8,9 @@ import store from './vuex/store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/commen.scss'
+import './styles/style.scss'
 import '@/assets/css/animate.css'
+import './directives/v_focus'
 
 Vue.use(ElementUI)
 

@@ -5,12 +5,14 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state:{
         userInfo: {
-            username: ''
+            username: '',
+            userId:''
         }
     },
     mutations: {
         saveUserInfo(state,payload) { //payload 形参
-            state.userInfo.username = payload
+            state.userInfo.username = payload.username
+            state.userInfo.userId = payload.userId
         }
     }
 })

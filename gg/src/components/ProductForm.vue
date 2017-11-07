@@ -122,7 +122,8 @@ export default {
                info: '',
                goodsListImg: '',
                imgsUrl: [],
-               goodsBrand:''
+               goodsBrand:'',
+               id: ''
           }
           
       },

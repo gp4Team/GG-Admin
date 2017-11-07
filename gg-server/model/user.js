@@ -12,6 +12,9 @@ const schema = new db.Schema({
     roles: {
         type: Number,
         required: true
+    },
+    userHeadImg:{
+        type:String
     }
 })
 const User = db.model('users',schema)
