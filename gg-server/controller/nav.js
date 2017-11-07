@@ -30,8 +30,8 @@ const getList = function (req, res) {
               list: [
                 {
                   secondName: '分类管理',
-                  path: '/',
-                  name: ''
+                  path: 'Classify/Classify',
+                  name: 'classify'
                 }
               ],
             },
@@ -42,8 +42,8 @@ const getList = function (req, res) {
               list: [
                 {
                   secondName: '品牌管理',
-                  path: '/',
-                  name: ''
+                  path: 'Brand/Brand',
+                  name: 'brand'
                 }
               ],
             },
