@@ -61,7 +61,8 @@ export default {
             pageCount : 1,
             pageSize: 1
         },
-        searchWord: ''
+        searchWord: '',
+        isselfId: ''
       }
     },
     components:{
@@ -93,8 +94,7 @@ export default {
                 that.usersList[i].roles = '管理员'
                 if(that.usersList[i]._id == storeuserId){
                   console.log('是自己的')
-                  console.log(that.usersList[i]._id)
-                    console.log(that.usersList[i].username)
+                  that.isselfId = that.usersList[i]._id
                 }
             }
           }
@@ -113,16 +113,24 @@ export default {
             type: 'warning',
             center: true
         }).then(()=>{
-            let params = {id:item._id}
-            axios.get('/ggserver/api/users/delete',{params})
-            .then((res)=>{
-                console.log(res)
+            if(that.isselfId == item._id){
                 that.$message({
-                    type: 'danger',
-                    message: '删除成功'
+                    type: 'warning',
+                    message: '不能删除自己哦！'
                 });
-                that.getUsersList()
-            })
+                return false;
+            }else{
+                let params = {id:item._id}
+                axios.get('/ggserver/api/users/delete',{params})
+                .then((res)=>{
+                    console.log(res)
+                    that.$message({
+                        type: 'danger',
+                        message: '删除成功'
+                    });
+                    that.getUsersList()
+                })
+            }
         })
       },
       search(){

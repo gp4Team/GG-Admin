@@ -19,7 +19,7 @@
 	      <el-table-column type="selection" width="50"> </el-table-column>
 	      <el-table-column type="index" width="80"> </el-table-column>
 	      <el-table-column class="pro-url" label="图片"> 
-	          <template scope='scope'>
+	          <template slot-scope='scope'>
 	              <img :src="scope.row.classifyImg" alt="封面">
 	          </template>
 	      </el-table-column>
