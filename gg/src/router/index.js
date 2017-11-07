@@ -6,6 +6,8 @@ import MainClass from '../views/Index/MainClass.vue'
 import AdminRole from "../views/role/adminRole.vue"
 import OrginRole from '../views/role/orginRole.vue'
 import Products from '../views/Index/Products.vue'
+import Classify from '../views/Classify/Classify.vue'
+import Brand from '../views/Brand/Brand.vue'
 import Login from '@/login'
 Vue.use(Router)
 
@@ -26,6 +28,7 @@ export default new Router({
           name: 'banners',
           component: Banners
         },
+        
         {
           path: 'Index/MainClass',
           name: 'mainClass',
@@ -45,8 +48,19 @@ export default new Router({
           path: 'Role/orginRole',
           name: 'orginRole',
           component: OrginRole
+        },
+        {
+    			path: 'Classify/Classify',
+		      name: 'classify',
+		      component: Classify
+		    },
+        {
+        	path: 'Brand/Brand',
+		      name: 'brand',
+		      component: Brand
         }
       ]
     }
+    
   ]
 })
