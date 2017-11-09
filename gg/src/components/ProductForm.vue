@@ -26,6 +26,48 @@
                     border: none;">
                 </div>
             </el-form-item>
+            <el-form-item label="颜色分类">
+                <el-tag
+                :key="tag"
+                v-for="tag in dynamicTagsColor"
+                closable
+                :disable-transitions="false"
+                @close="colorClose(tag)">
+                {{tag}}
+                </el-tag>
+                <el-input
+                class="input-new-tag"
+                v-if="inputVisibleColor"
+                v-model="inputValueColor"
+                ref="saveTagInput"
+                size="small"
+                @keyup.enter.native="handleColorConfirm"
+                @blur="handleColorConfirm"
+                >
+                </el-input>
+                <el-button v-else class="button-new-tag" size="small" @click="showColor">+ 添加</el-button>
+            </el-form-item>
+            <el-form-item label="尺寸分类">
+                <el-tag
+                :key="tag"
+                v-for="tag in dynamicTagsSize"
+                closable
+                :disable-transitions="false"
+                @close="sizeClose(tag)">
+                {{tag}}
+                </el-tag>
+                <el-input
+                class="input-new-tag"
+                v-if="inputVisibleSize"
+                v-model="inputValueSize"
+                ref="saveTagInput"
+                size="small"
+                @keyup.enter.native="handleSizeConfirm"
+                @blur="handleSizeConfirm"
+                >
+                </el-input>
+                <el-button v-else class="button-new-tag" size="small" @click="showSize">+ 添加</el-button>
+            </el-form-item>
             <el-form-item label="商品描述" prop="info">
                 <el-input type="textarea" v-model="goods_form.info"></el-input>
             </el-form-item>
@@ -80,14 +122,21 @@ export default {
                 {required: true, message: '请输入商品品牌', trigger: 'blur'}
             ],
             info: [
-                {required: true, message: '简单介绍一下', trigger: 'blur'},
-                { min: 0, max: 40, message: '长度在 0 到 40个字符', trigger: 'blur' }
+                {required: true, message: '简单介绍一下', trigger: 'blur'}
             ]
           },
          closeParam: {
              isShow: false,
              isGetList:false
-         }
+         },
+        //  颜色 标签
+        dynamicTagsColor: [],
+        inputVisibleColor: false,
+        inputValueColor: '',
+        //  尺寸 标签
+        dynamicTagsSize: [],
+        inputVisibleSize: false,
+        inputValueSize: ''
       }
   },
   watch:{
@@ -101,6 +150,9 @@ export default {
   methods: {
       sendProductsInfo() {
         let that = this
+        this.goods_form.dynamicTagsColor = this.dynamicTagsColor
+        this.goods_form.dynamicTagsSize = this.dynamicTagsSize
+        console.log(this.goods_form)
         axios.post('/ggserver/api/products/saveList',this.goods_form)
           .then(function(res){
               console.log(res)
@@ -123,7 +175,9 @@ export default {
                goodsListImg: '',
                imgsUrl: [],
                goodsBrand:'',
-               id: ''
+               id: '',
+               dynamicTagsSize:[],
+               dynamicTagsColor:[]
           }
           
       },
@@ -135,12 +189,53 @@ export default {
             reader.onload = function(e){
                 that.goods_form.goodsListImg=this.result
          }
+      },
+     // 颜色
+      colorClose(tag) {
+        this.dynamicTagsColor.splice(this.dynamicTagsColor.indexOf(tag), 1);
+      },
+
+      showColor() {
+        this.inputVisibleColor = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+
+      handleColorConfirm() {
+        let inputValueColor = this.inputValueColor;
+        if (inputValueColor) {
+          this.dynamicTagsColor.push(inputValueColor);
+        }
+        this.inputVisibleColor = false;
+        this.inputValueColor = '';
+      },
+      // 尺寸
+      sizeClose(tag) {
+        this.dynamicTagsSize.splice(this.dynamicTagsSize.indexOf(tag), 1);
+      },
+
+      showSize() {
+        this.inputVisibleSize = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+
+      handleSizeConfirm() {
+        let inputValueSize = this.inputValueSize;
+        if (inputValueSize) {
+          this.dynamicTagsSize.push(inputValueSize);
+        }
+        this.inputVisibleSize = false;
+        this.inputValueSize = '';
       }
   }
 }
 </script>
 <style lang="scss" >
     .uploadImg{
+        margin-bottom: 10px;
         .upload-demo.el-input{
             width: 200px;
             .el-input__inner{

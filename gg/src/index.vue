@@ -52,24 +52,15 @@
             <el-col :span="20" id="content-box">
               <div class="grid-content">
                     <transition
-                      name="page-change-transition"
-                      mode="out-in"
-                      enter-active-class="animate-time zoomInUp"
-                      leave-active-class="animate-time zoomOutLeft">
-                      <transition
-                          name="page-change-transition"
-                          mode="out-in"
-                          enter-active-class="animate-time zoomInUp"
-                          leave-active-class="animate-time zoomOutLeft">
-                          <el-main>
-                            <Breadcrumb :breadcrumbInfo = 'breadcrumbInfo'></Breadcrumb>
-                            <keep-alive>
-                                <router-view></router-view>
-                            </keep-alive>
-                          </el-main>
-                      </transition>
+                        name="fade"
+                        mode="out-in" >
+                        <el-main>
+                          <Breadcrumb :breadcrumbInfo = 'breadcrumbInfo'></Breadcrumb>
+                          <keep-alive>
+                              <router-view></router-view>
+                          </keep-alive>
+                        </el-main>
                   </transition>
-                  
               </div>
             </el-col>
         </el-row>
@@ -210,5 +201,10 @@ import UserInfo from './components/UserInfo'
   #content-box .grid-content{
     background: #fff;
   }
-  
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
 </style>

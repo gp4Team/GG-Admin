@@ -40,6 +40,14 @@ const schema = new db.Schema({
     "goodsBrand":{
         type: String,
         required:true
+    },
+    "dynamicTagsSize":{
+        type: Array,
+        required:true
+    },
+    "dynamicTagsColor":{
+        type: Array,
+        required:true
     }
 })
 const Products = db.model('products',schema)

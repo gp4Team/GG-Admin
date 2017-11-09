@@ -8,6 +8,7 @@ import OrginRole from '../views/role/orginRole.vue'
 import Products from '../views/Index/Products.vue'
 import Classify from '../views/Classify/Classify.vue'
 import Brand from '../views/Brand/Brand.vue'
+import Cart from '../views/Cart/cart.vue'
 import Login from '@/login'
 Vue.use(Router)
 
@@ -58,7 +59,12 @@ export default new Router({
         	path: 'Brand/Brand',
 		      name: 'brand',
 		      component: Brand
-        }
+        },
+        {
+    			path: 'Cart/cart',
+		      name: 'cart',
+		      component: Cart
+		    },
       ]
     }
     

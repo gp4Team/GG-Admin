@@ -19,7 +19,6 @@ const getProductsList = function(req, res, next){
                 let word = req.query.searchWord
                 Products.find({"goodsName" : eval('/'+word+'/i') })
                 .then((result)=>{
-                    console.log(result)
                     let pageCount = Math.ceil(result.length / pageSize)
                     cb(null,pageCount)
                 })
@@ -48,7 +47,6 @@ const getProductsList = function(req, res, next){
             
         }
     ], function(err,results){
-        console.log(results)
         let page = {
             "pageSize":pageSize,
             "result":results[1],
@@ -60,8 +58,7 @@ const getProductsList = function(req, res, next){
 }
 
 const saveProductsList = function(req, res, next){
-    const { goodsName,_id,goodsBrand, goodsListImg, price, discount, imgsUrl, className, info} = req.body
-    console.log(req.body._id)
+    const { goodsName,_id,goodsBrand, goodsListImg, price, discount, imgsUrl, className, info,dynamicTagsSize, dynamicTagsColor} = req.body
     if(req.body._id == '' || req.body._id === undefined){
         console.log('添加')
         //对base64解析
@@ -87,7 +84,9 @@ const saveProductsList = function(req, res, next){
                 className,
                 info,
                 createTime: new Date().getTime(),
-                goodsListImg:'http://localhost:3000/images/upload/'+timer+extension
+                goodsListImg:'http://10.9.164.7:3000/images/upload/'+timer+extension,
+                dynamicTagsSize, 
+                dynamicTagsColor
             })
             willSaveProducts.save().then(()=>{
                 console.log('添加成功')
@@ -97,7 +96,6 @@ const saveProductsList = function(req, res, next){
     }
     if(req.body._id != '' || req.body._id !== undefined){
         console.log('修改')
-        console.log(goodsListImg.length)
         const setObj = {
             goodsName,
             goodsBrand,
@@ -106,6 +104,8 @@ const saveProductsList = function(req, res, next){
             imgsUrl:"['https://img.alicdn.com/imgextra/i1/263817957/TB2zHIOdFXXXXa_XpXXXXXXXXXX-263817957.jpg','https://img.alicdn.com/imgextra/i2/263817957/TB2BDgYdFXXXXc0XXXXXXXXXXXX-263817957.jpg','https://img.alicdn.com/imgextra/i1/263817957/TB22x77dFXXXXaPXXXXXXXXXXXX-263817957.jpg']",
             className,
             info,
+            dynamicTagsSize, 
+            dynamicTagsColor,
             createTime: new Date().getTime(),
         }
         if(goodsListImg.length > 200){
@@ -123,7 +123,7 @@ const saveProductsList = function(req, res, next){
             let timer = Date.now()
             fs.writeFile(basepath+timer+extension, dataBuffer, function(err) {
                 if(err) throw err;
-                setObj.goodsListImg = 'http://localhost:3000/images/upload/'+timer+extension
+                setObj.goodsListImg = 'http://10.9.164.7/images/upload/'+timer+extension
                 let newObj = setObj
                 Products.findByIdAndUpdate(req.body._id,{
                     $set: newObj

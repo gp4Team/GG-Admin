@@ -14,3 +14,29 @@
 .center{
     text-align: center
 }
+
+.main .el-table td.el-table__expanded-cell{
+    padding:10px !important;
+    background: #fdf8f8 !important;
+}
+.el-table__expanded-cell:hover{
+    background: rgba(253, 146, 250, 0.14)!important;
+}
+.gutter-3 .el-form-item__content .el-tag{
+    margin: 0 3px;
+}
+.el-table td{
+    padding: 8px 0 !important;
+  }
+.demo-table-expand {
+    font-size: 0;
+}
+.demo-table-expand label {
+    width: 90px;
+    color: #403140;
+}
+.demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+}

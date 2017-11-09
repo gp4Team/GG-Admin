@@ -3,6 +3,7 @@ var router = express.Router();
 const userController = require('../controller/user.js')
 const navController = require('../controller/nav.js')
 const productsController = require('../controller/products.js')
+const cartController = require('../controller/cart.js')
 const upload = require('../utils/uploadimg')
 /* GET home page. */
 // 用户相关路由
@@ -18,6 +19,14 @@ router.get('/products/list',productsController.getProductsList)
 router.post('/products/saveList',productsController.saveProductsList)
 router.get('/products/deletelist',productsController.deleteProducts)
 router.get('/products/getOneList',productsController.getOneProducts)
+
+// cart 购物车
+router.post('/cart/userCartAdd',cartController.cartAdd)
+router.get('/cart/userCartList',cartController.getCartList)
+router.get('/cart/userCartDelOne',cartController.deleteCartList)
+router.get('/cart/userCartModOne',cartController.modifyCartList)
+
+router.get('/cart/allCartList',cartController.getAllCartList)
 
 router.get('/nav/menulist', navController.getList)
 

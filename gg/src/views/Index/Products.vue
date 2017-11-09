@@ -38,16 +38,32 @@
               <el-table-column prop="goodsName" label="商品名称" width=""> </el-table-column>
               <el-table-column prop="_id" label="商品ID"> </el-table-column>
               <el-table-column prop="price" width="100" sortable label="商品价格"> </el-table-column>
-              <el-table-column prop="info" label="商品描述"> </el-table-column>
-              
               <el-table-column prop="className" width="80" label="类型"> </el-table-column>
-              <el-table-column label="操作" width="100">
+              <!-- <el-table-column label="操作" width="100">
                   <template slot-scope="scope">
                     <el-button
                       size="mini"
                       round plain type="primary">详情</el-button>
                   </template> 
-               </el-table-column>
+               </el-table-column> -->
+               <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="demo-table-expand">
+                        <el-form-item class="gutter-3" label="颜色分类">
+                            <el-tag type="success" v-for="(item,index) in props.row.dynamicTagsColor" :key="index">{{ item }}</el-tag>
+                        </el-form-item>
+                        <el-form-item class="gutter-3" label="尺寸分类">
+                            <el-tag type="warning" v-for="(item,index) in props.row.dynamicTagsSize" :key="index">{{ item }}</el-tag>
+                        </el-form-item>
+                        <el-form-item label="商品描述">
+                            <span>{{props.row.info}}</span>
+                        </el-form-item>
+                        <el-form-item label="创建时间">
+                            <span>{{props.row.createTime}}</span>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                </el-table-column>
           </el-table>
           <Pagination :paginInfo="paginInfo" v-on:listenPaginEvent = 'changePageNo'></Pagination>
       </div>
@@ -70,7 +86,7 @@ export default {
           },
           selectList: '',
           modifyInfo: {},
-          searchWord: ''
+          searchWord: '',
       }
     },
     components:{
@@ -90,6 +106,14 @@ export default {
                 that.paginInfo.pageCount = data.pageCount
                 that.paginInfo.pageSize = data.pageSize
                 that.productList = data.result
+                for(let i in that.productList){
+                    let da = that.productList[i].createTime
+                    da = new Date(da);
+                    var year = da.getFullYear();
+                    var month = da.getMonth()+1;
+                    var date = da.getDate();
+                    that.productList[i].createTime = [year,month,date].join('-');
+                }
             })
       },
       changePageNo(pageNo){
@@ -111,8 +135,6 @@ export default {
           let idArr = ''
           idArr += info.map((item)=>{
             var pattern = /\"(.*)\"/;
-            // var testStr = item._id;
-            // var result = testStr.match(pattern);
             return item._id;
           })
           console.log(idArr)
@@ -178,10 +200,8 @@ export default {
           height: 50px;
         }
       }
-      .el-table td{
-        padding: 8px 0 !important;
-      }
     }
+   
 </style>
 
 

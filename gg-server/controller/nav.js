@@ -54,8 +54,8 @@ const getList = function (req, res) {
               list: [
                 {
                   secondName: '购物车管理',
-                  path: '/',
-                  name: ''
+                  path: 'Cart/cart',
+                  name: 'cart'
                 }
               ]
             },
