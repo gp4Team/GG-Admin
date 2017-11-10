@@ -149,7 +149,8 @@ let modify = {
         fs.writeFile(basepath+timer+extension, dataBuffer, function(err) {
             console.log('改了')
             if(err) throw err;
-            setObj.userHeadImg = 'http://10.9.164.7:3000/images/upload/'+timer+extension;
+            // setObj.userHeadImg = 'http://10.9.164.7:3000/images/upload/'+timer+extension;
+            setObj.userHeadImg = 'http://localhost:3000/images/upload/'+timer+extension;
             User.findByIdAndUpdate(id,{
                 $set: setObj
             },{new: true}).then((result)=>{
