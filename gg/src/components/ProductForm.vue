@@ -110,7 +110,7 @@ export default {
           rules: {
             goodsName: [
                 { required: true, message: '请输入商品名称', trigger: 'blur' },
-                { min: 3, max: 20, message: '长度在 3 到 30个字符', trigger: 'blur' }
+                { min: 3, max: 20, message: '长度在 3 到 20个字符', trigger: 'blur' }
             ],
             price: [
                 { required: true, message: '请输入商品价格', trigger: 'blur' },
@@ -183,6 +183,8 @@ export default {
       },
       getImgPath(e){
           let imgurl = e.target.files[0]
+          console.log('图片imgurl')
+          console.log(imgurl)
           let that = this
           var reader = new FileReader();
             reader.readAsDataURL(imgurl);//转化成base64数据类型

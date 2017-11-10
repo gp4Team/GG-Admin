@@ -13,20 +13,16 @@
           <el-row :gutter="20">
             <el-col :span="20"><div class="grid-content">逛逛网后台管理系统</div></el-col>
             <el-col :span="4">
-              <div class="grid-content" v-popover:popover1>
-                  <el-dropdown>
+              <div class="grid-content" v-popover:popover1 >
+                  <div class="headLogin">
                     <img  v-if="showUname" class="head-img" src="/static/images/default.jpg" alt="">
                     <img  v-if="!showUname" class="head-img" :src="userInfo.userHeadImg ? userInfo.userHeadImg : '/static/images/default.jpg'" alt="">
-                    <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item >{{!showUname == true?"注销":"注册"}}</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                  <span v-if="!showUname">你好，{{userInfo.username}}</span>
-                  <span class="warning" v-if="!showUname" @click="logout">注销</span>
-                  <span class="warning" @click="login" v-if="showUname">登录</span>
+                    <span v-if="!showUname">你好，{{userInfo.username}}</span>
+                    <span class="warning" v-if="!showUname" @click="logout">注销</span>
+                    <span class="warning" @click="login" v-if="showUname">登录</span>
+                  </div>
               </div>
             </el-col>
-            
           </el-row>
         </el-header>
         <el-row :gutter="22">
@@ -206,5 +202,11 @@ import UserInfo from './components/UserInfo'
   }
   .fade-enter, .fade-leave-active {
     opacity: 0
+  }
+  .headLogin{
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    justify-content: space-between;
   }
 </style>

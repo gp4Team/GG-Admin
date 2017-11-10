@@ -84,7 +84,8 @@ const saveProductsList = function(req, res, next){
                 className,
                 info,
                 createTime: new Date().getTime(),
-                goodsListImg:'http://10.9.164.7:3000/images/upload/'+timer+extension,
+                // goodsListImg:'http://10.9.164.7:3000/images/upload/'+timer+extension,
+                goodsListImg:'http://localhost:3000/images/upload/'+timer+extension,
                 dynamicTagsSize, 
                 dynamicTagsColor
             })
@@ -123,7 +124,8 @@ const saveProductsList = function(req, res, next){
             let timer = Date.now()
             fs.writeFile(basepath+timer+extension, dataBuffer, function(err) {
                 if(err) throw err;
-                setObj.goodsListImg = 'http://10.9.164.7/images/upload/'+timer+extension
+                // setObj.goodsListImg = 'http://10.9.164.7/images/upload/'+timer+extension
+                setObj.goodsListImg = 'http://localhost/images/upload/'+timer+extension
                 let newObj = setObj
                 Products.findByIdAndUpdate(req.body._id,{
                     $set: newObj
