@@ -1,6 +1,7 @@
 const Banner = require('../model/banner.js')
 const fs = require('fs')
 const { getList, getParam } = require('../utils/utils.js')
+var broadcast = require('../bin/broadcast')
 
 const getBannerList = function( req, res, next){
     console.log('一大波轮播')
@@ -32,7 +33,8 @@ const saveBanners = function(req, res, next){
             bannerUrl : 'http://localhost:3000/images/upload/' + timer + extension
         })
         willSaveBanners.save().then(()=>{
-            console.log('添加成功')
+            console.log('添加成功轮播图')
+            broadcast.emit("hahaha",'banners')
             res.json(getParam({success: true}))
         })  
     });
@@ -48,6 +50,7 @@ const deleteBannerList = function(req, res, next){
     console.log(idQuery,'我要准备删除了')
     Banner.deleteMany({$or:idQuery})
     .then((resultss)=>{
+        broadcast.emit("hahaha",'banners')
         res.json(getParam({success:true}))
     })
 }

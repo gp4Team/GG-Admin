@@ -21,6 +21,27 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+var io = require('socket.io')(server)
+var broadcast = require('./broadcast')
+var clients = {}
+var count = 0;
+io.on("connection",(socket)=>{
+  socket.name = ++count;
+  clients[socket.name] = socket
+
+  socket.on("disconnect",()=>{
+    delete clients[socket.name]
+  })
+
+})
+
+broadcast.on("hahaha",function (message) {
+  for(var name in clients){
+    clients[name].send(message)
+  }
+})
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
