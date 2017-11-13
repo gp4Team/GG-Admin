@@ -3,6 +3,8 @@ const fs = require('fs')
 const {getList, getParam} = require('../utils/utils')
 const async = require('async')
 
+var broadcast = require('../bin/broadcast')
+
 const getProductsList = function(req, res, next){
     let pageSize = 6
     let { pageNo } = req.query
@@ -90,6 +92,10 @@ const saveProductsList = function(req, res, next){
                 dynamicTagsColor
             })
             willSaveProducts.save().then(()=>{
+
+                ///////
+                broadcast.emit("hahaha",'xin')
+
                 console.log('添加成功')
                 res.json(getParam({success: true}))
             })  
@@ -141,7 +147,7 @@ const saveProductsList = function(req, res, next){
                 res.json(getParam({success:true}))
             })
         }
-        
+        broadcast.emit("hahaha",'xin')
     } 
     
 }

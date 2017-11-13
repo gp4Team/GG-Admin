@@ -1,7 +1,7 @@
 <template>
     <div class="wraper">
-        <el-dialog :show-close=false width="40%" title="商品信息" :visible.sync="dialogFormVisible">
-        <el-form :model="goods_form" :rules="rules" ref="goods_form" label-width="100px" class="demo-ruleForm">
+        <el-dialog :close-on-click-modal=false :show-close=false width="40%" title="商品信息" :visible.sync="dialogFormVisible">
+        <el-form :model="goods_form" :rules="rules" ref="goods_form" label-width="120px" class="demo-ruleForm">
             <el-form-item label="商品名称" prop="goodsName">
                 <el-input v-model="goods_form.goodsName"></el-input>
             </el-form-item>
@@ -16,17 +16,18 @@
             </el-form-item>
             <el-form-item label="商品类型" prop="className">
                 <el-select v-model="goods_form.className" placeholder="请选择商品类型">
-                <el-option label="衬衫" value="衬衣"></el-option>
-                <el-option label="连衣裙" value="连衣裙"></el-option>
+                <!-- <el-option label="衬衫" value="衬衣"></el-option>
+                <el-option label="连衣裙" value="连衣裙"></el-option> -->
+                <el-option v-for="(item, index) in selectTypeList" :key="index" :label="item.typename" :value="item.typename"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item class="uploadImg" label="上传商品封面">
+            <el-form-item class="uploadImg hasref" label="上传商品封面">
                 <div class="upload-demo el-input">
                     <input @change="getImgPath" autocomplete="off" type="file" rows="3" validateevent="true" class="el-input__inner" style="
                     border: none;">
                 </div>
             </el-form-item>
-            <el-form-item label="颜色分类">
+            <el-form-item class="hasref" label="颜色分类">
                 <el-tag
                 :key="tag"
                 v-for="tag in dynamicTagsColor"
@@ -47,7 +48,7 @@
                 </el-input>
                 <el-button v-else class="button-new-tag" size="small" @click="showColor">+ 添加</el-button>
             </el-form-item>
-            <el-form-item label="尺寸分类">
+            <el-form-item class="hasref" label="尺寸分类">
                 <el-tag
                 :key="tag"
                 v-for="tag in dynamicTagsSize"
@@ -136,7 +137,8 @@ export default {
         //  尺寸 标签
         dynamicTagsSize: [],
         inputVisibleSize: false,
-        inputValueSize: ''
+        inputValueSize: '',
+        selectTypeList: []
       }
   },
   watch:{
@@ -147,7 +149,18 @@ export default {
           
       }
   },
+  mounted(){
+      this.getTypesList()
+  },
   methods: {
+      getTypesList(){
+            let that = this
+            axios.get('/ggserver/api/types/getList')
+            .then(function(res){
+                console.log(res)
+                that.selectTypeList = res.data.content.data.typeInfo
+            })
+        },
       sendProductsInfo() {
         let that = this
         this.goods_form.dynamicTagsColor = this.dynamicTagsColor
@@ -255,6 +268,11 @@ export default {
      }
      .el-table__body tr.current-row>td {
         background: rgba(253, 146, 250, 0.14) !important;
+    }
+    .el-form-item.hasref .el-form-item__label:before {
+        content: '*';
+        color: #fa5555;
+        margin-right: 4px;
     }
 </style>
 

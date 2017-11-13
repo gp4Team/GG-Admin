@@ -48,7 +48,7 @@
                </el-table-column> -->
                <el-table-column type="expand">
                 <template slot-scope="props">
-                    <el-form label-position="left" inline class="demo-table-expand">
+                    <el-form label-position="left" inline class="demo-table-expand detailProd">
                         <el-form-item class="gutter-3" label="颜色分类">
                             <el-tag type="success" v-for="(item,index) in props.row.dynamicTagsColor" :key="index">{{ item }}</el-tag>
                         </el-form-item>
@@ -201,7 +201,9 @@ export default {
         }
       }
     }
-   
+   .detailProd label.el-form-item__label{
+       color: #8e8e8e;
+   }
 </style>
 
 

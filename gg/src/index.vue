@@ -2,10 +2,10 @@
   <div class="wrapper">
       <el-container style="">
         <el-popover
-            ref="popover1"
+            class="showPopover"
+            visible-arrow
             placement="bottom"
             width="320"
-            trigger="click"
             v-model="showPop">
             <UserInfo :userInfo="userInfo" v-on:isUpdataUser = 'closePop'></UserInfo>
           </el-popover>
@@ -13,10 +13,10 @@
           <el-row :gutter="20">
             <el-col :span="20"><div class="grid-content">逛逛网后台管理系统</div></el-col>
             <el-col :span="4">
-              <div class="grid-content" v-popover:popover1 >
+              <div class="grid-content" >
                   <div class="headLogin">
-                    <img  v-if="showUname" class="head-img" src="/static/images/default.jpg" alt="">
-                    <img  v-if="!showUname" class="head-img" :src="userInfo.userHeadImg ? userInfo.userHeadImg : '/static/images/default.jpg'" alt="">
+                    <!-- <img  v-if="showUname" class="head-img" src="/static/images/default.jpg" alt=""> -->
+                    <img @click="clickshowpop" class="head-img" :src="userInfo.userHeadImg ? userInfo.userHeadImg : '/static/images/default.jpg'" alt="">
                     <span v-if="!showUname">你好，{{userInfo.username}}</span>
                     <span class="warning" v-if="!showUname" @click="logout">注销</span>
                     <span class="warning" @click="login" v-if="showUname">登录</span>
@@ -47,16 +47,12 @@
             </el-col>
             <el-col :span="20" id="content-box">
               <div class="grid-content">
-                    <transition
-                        name="fade"
-                        mode="out-in" >
-                        <el-main>
-                          <Breadcrumb :breadcrumbInfo = 'breadcrumbInfo'></Breadcrumb>
-                          <keep-alive>
-                              <router-view></router-view>
-                          </keep-alive>
-                        </el-main>
-                  </transition>
+                  <el-main>
+                    <Breadcrumb :breadcrumbInfo = 'breadcrumbInfo'></Breadcrumb>
+                    <transition name="el-fade-in-linear">
+                        <router-view class="child-view"></router-view>
+                    </transition>
+                  </el-main>
               </div>
             </el-col>
         </el-row>
@@ -71,6 +67,7 @@ import UserInfo from './components/UserInfo'
   export default {
     data() {
       return {
+          transitionName: 'slide-left' ,
           isCollapse:false,
           showUname:false,
           leftMenu: [],
@@ -151,11 +148,13 @@ import UserInfo from './components/UserInfo'
           if(has){
             this.showPop = false
           }
+      },
+      clickshowpop(){
+        this.showPop = !this.showPop
       }
     }
   };
 </script>
-
 <style lang="scss" scoped>
   .el-header {
     background-color: #bb00b6;
@@ -208,5 +207,11 @@ import UserInfo from './components/UserInfo'
     align-items: center;
     font-size: 13px;
     justify-content: space-between;
+  }
+  .showPopover{
+        width: 320px;
+        position: absolute;
+        right: 20px;
+        top: 64px;
   }
 </style>

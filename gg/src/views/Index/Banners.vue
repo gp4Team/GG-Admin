@@ -29,7 +29,7 @@
             <el-button type="text">轮播预览</el-button>
               <el-carousel indicator-position="outside" width="350px" height="149px">
                 <el-carousel-item v-for="(item,index) in bannerList" :key="index">
-                    <img style="width:100%" :src="item.bannerUrl" alt="轮播">
+                    <img style="width:100%;height:149px;" :src="item.bannerUrl" alt="轮播">
                 </el-carousel-item>
               </el-carousel>
           </div>
@@ -127,6 +127,9 @@ export default {
               type: 'success',
               message: '上传成功！'
             });
+            that.$refs.upload.clearFiles();
+            that.baseImgList = []
+            that.uploadImgList = []
             that.getBannerList()
           }else{
             that.$message({
@@ -193,7 +196,7 @@ export default {
   }
 }
   .cell img{
-     width: 50px;
+     width: 80px;
      height: 50px;
   }
   .el-carousel__item h3 {
